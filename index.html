@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer with Vibration</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #timer {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Timer with Vibration</h1>
+    <div id="timer">00:00</div>
+    <button id="startButton">Start Timer</button>
+    <button id="stopButton">Stop Timer</button>
+
+    <script>
+        let timerInterval;
+        let seconds = 0;
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            if (timerInterval) return; // Prevent multiple intervals
+            seconds = 0; // Reset seconds
+            updateTimerDisplay(); // Update display to 00:00
+            timerInterval = setInterval(() => {
+                seconds++;
+                updateTimerDisplay();
+                
+                // Vibrate for 200 milliseconds after each minute
+                if (seconds % 60 === 0) {
+                    if (navigator.vibrate) {
+                        navigator.vibrate(200); // Vibrate for 200 milliseconds
+                    }
+                }
+            }, 1000); // Update timer every second
+        });
+
+        document.getElementById('stopButton').addEventListener('click', () => {
+            clearInterval(timerInterval);
+            timerInterval = null; // Reset the interval
+        });
+
+        function updateTimerDisplay() {
+            const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
+            const remainingSeconds = String(seconds % 60).padStart(2, '0');
+            document.getElementById('timer').textContent = `${minutes}:${remainingSeconds}`;
+        }
+    </script>
+</body>
+</html>
