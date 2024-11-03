@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer with Vibration</title>
+    <title>Each-Minute-Timer</title>
     <style>
+        /* Light Theme (default) */
+        :root {
+            --bg-color: #f0f0f0;
+            --text-color: #333;
+            --button-bg-color: #007bff;
+            --button-text-color: #fff;
+            --button-hover-bg-color: #0056b3;
+        }
+
+        /* Dark Theme */
+        .dark-theme {
+            --bg-color: #333;
+            --text-color: #f0f0f0;
+            --button-bg-color: #444;
+            --button-text-color: #fff;
+            --button-hover-bg-color: #555;
+        }
+
         body {
             display: flex;
             flex-direction: column;
@@ -12,9 +30,65 @@
             justify-content: center;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
         }
+        
+        /* Header styles */
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        /* Stylish theme toggle button */
+        #themeToggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 24px;
+            background-color: var(--button-bg-color);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #themeToggle .toggle-circle {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--button-text-color);
+            transition: transform 0.3s;
+        }
+
+        /* Toggle button icon position for light and dark mode */
+        .dark-theme #themeToggle .toggle-circle {
+            transform: translateX(16px);
+        }
+
+        #themeToggle:hover {
+            background-color: var(--button-hover-bg-color);
+        }
+
         h1 {
+            margin-top: 60px;
             margin-bottom: 20px;
         }
         #timer {
@@ -27,18 +101,24 @@
             font-size: 16px;
             border: none;
             border-radius: 5px;
-            background-color: #007bff;
-            color: white;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
             cursor: pointer;
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: var(--button-hover-bg-color);
         }
     </style>
 </head>
 <body>
-    <h1>Timer with Vibration</h1>
+    <header>
+        <div class="title">Each-Minute-Timer</div>
+        <div id="themeToggle">
+            <div class="toggle-circle"></div>
+        </div>
+    </header>
+    <h1>Each-Minute-Timer</h1>
     <div id="timer">00:00</div>
     <button id="startButton">Start Timer</button>
     <button id="stopButton">Stop Timer</button>
@@ -55,11 +135,9 @@
                 seconds++;
                 updateTimerDisplay();
                 
-                // Vibrate for 200 milliseconds after each minute
-                if (seconds % 60 === 0) {
-                    if (navigator.vibrate) {
-                        navigator.vibrate(200); // Vibrate for 200 milliseconds
-                    }
+                // Vibrate every minute
+                if (seconds % 60 === 0 && navigator.vibrate) {
+                    navigator.vibrate(200); // Vibrate for 200 milliseconds
                 }
             }, 1000); // Update timer every second
         });
@@ -74,6 +152,12 @@
             const remainingSeconds = String(seconds % 60).padStart(2, '0');
             document.getElementById('timer').textContent = `${minutes}:${remainingSeconds}`;
         }
+
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+        });
     </script>
 </body>
 </html>
