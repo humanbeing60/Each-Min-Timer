@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Each-Minute-Timer</title>
+    <title>EMT</title>
     <style>
         /* Light Theme (default) */
         :root {
@@ -113,15 +113,17 @@
 </head>
 <body>
     <header>
-        <div class="title">Each-Minute-Timer</div>
+        <div class="title">EMT</div>
         <div id="themeToggle">
             <div class="toggle-circle"></div>
         </div>
     </header>
-    <h1>Each-Minute-Timer</h1>
+    <h1>Timer</h1>
     <div id="timer">00:00</div>
-    <button id="startButton">Start Timer</button>
-    <button id="stopButton">Stop Timer</button>
+    <div>
+        <button id="startButton">Start Timer</button>
+        <button id="stopButton">Stop Timer</button>
+    </div>
 
     <script>
         let timerInterval;
